@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: nginx:latest
+    container_name: simple-frontend
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend  # Use a Dockerfile instead of a plain Python image
+    container_name: simple-backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    command: ["python", "app.py"]
+    ports:
+      - "5000:5000"
